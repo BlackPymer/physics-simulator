@@ -1,5 +1,6 @@
 #include <iostream>
-
-int main(){
+#include "include/physics/ball.hpp"
+int main()
+{
     return 0;
 }
