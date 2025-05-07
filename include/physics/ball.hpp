@@ -16,6 +16,8 @@ public:
     double getBounciness() const;
     void setBounciness(double newBounciness);
 
+    double getVolume() const;
+
     std::array<double, 3> getPosition() const;
     void setPosition(std::array<double, 3> newPosition);
 
@@ -29,6 +31,9 @@ private:
     double mass_;
     double density_;
     double bounciness_;
+    double volume_;
     std::array<double, 3> position_;
     std::array<double, 3> speed_;
+
+    void calculateVolumeAndDensity();
 };

@@ -4,7 +4,7 @@ project(MyProject)
 set(CMAKE_CXX_STANDARD 17)
 
 set(SOURCES
-    main.cpp
+    src/main.cpp
     src/physics/ball.cpp
 )
 set(HEADERS
