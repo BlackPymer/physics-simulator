@@ -25,6 +25,7 @@ public:
     void setSpeed(std::array<double, 3> newSpeed);
 
     void move();
+    Ball operator+(Ball &secondBall);
 
 private:
     double radius_;
