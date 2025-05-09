@@ -9,6 +9,7 @@ set(SOURCES
 )
 set(HEADERS
     include/physics/ball.hpp
+    include/physics/constants.hpp
 )
 
 add_executable(MyExecutable main.cpp)
