@@ -124,7 +124,7 @@ void Ball::collide(Ball &secondBall)
         // TODO inelastic collision
         return;
     }
-
+    normalisePositions(*this, secondBall);
     // calculating normal of the collision
     double normalX = position_[0] - secondBall.position_[0];
     double normalY = position_[1] - secondBall.position_[1];
