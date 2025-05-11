@@ -95,4 +95,9 @@ private:
      * @brief Calculates elastic collision
      */
     void collide(Ball &secondBall);
+
+    /**
+     * @brief normalises positions of the balls in collision (if occasionally they are got inside each other)
+     */
+    static void normalisePositions(Ball &firstBall, Ball &secondBall);
 };
