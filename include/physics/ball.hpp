@@ -15,8 +15,8 @@ public:
      *@param speed          Start speed of the ball in Physics::DIMENSIONS dimensions
      *@param bounciness     Bounciness of the ball in touches with other balls, where 1 is not losing speed and 0 stops the ball at all
      */
-    Ball(double radius = 0, double mass = 0, std::array<double, Physics::DIMENSIONS> position,
-         std::array<double, Physics::DIMENSIONS> speed, double bounciness = 1);
+    Ball(double radius = 0, double mass = 0, std::array<double, Physics::DIMENSIONS> position = {0, 0},
+         std::array<double, Physics::DIMENSIONS> speed = {0, 0}, double bounciness = 1);
 
     /**
      * @brief Returns the radius of the ball
@@ -43,14 +43,14 @@ public:
 
     double getVolume() const;
 
-    std::array<double, 3> getPosition() const;
-    void setPosition(std::array<double, 3> newPosition);
+    std::array<double, Physics::DIMENSIONS> getPosition() const;
+    void setPosition(std::array<double, Physics::DIMENSIONS> newPosition);
 
-    std::array<double, 3> getSpeed() const;
+    std::array<double, Physics::DIMENSIONS> getSpeed() const;
     /**
      * @brief Updates the speed of the ball
      */
-    void setSpeed(std::array<double, 3> newSpeed);
+    void setSpeed(std::array<double, Physics::DIMENSIONS> newSpeed);
 
     /**
      * @brief Calculates the distance between two points.
@@ -83,11 +83,11 @@ private:
     double density_;
     double bounciness_;
     double volume_;
-    std::array<double, 3> position_;
-    std::array<double, 3> speed_;
+    std::array<double, Physics::DIMENSIONS> position_;
+    std::array<double, Physics::DIMENSIONS> speed_;
 
     /**
-     * @brief Calculates the volume and the density of the ball. Volume is calculated as for a sphere (4/3*PI*r^3). Density is calculated as mass/volume
+     * @brief Calculates the volume and the density of the ball. Volume is calculated as for a sphere (4/Physics::DIMENSIONS*PI*r^Physics::DIMENSIONS). Density is calculated as mass/volume
      */
     void calculateVolumeAndDensity();
 

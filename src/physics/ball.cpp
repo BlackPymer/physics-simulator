@@ -3,8 +3,8 @@
 #include "../../include/physics/ball.hpp"
 #include "../../include/physics/constants.hpp"
 
-Ball::Ball(double radius, double mass, std::array<double, Physics::DIMENSIONS> position = std::array<double, Physics::DIMENSIONS>{0, 0, 0},
-           std::array<double, Physics::DIMENSIONS> startSpeed = std::array<double, Physics::DIMENSIONS>{0, 0, 0}, double bounciness = 1)
+Ball::Ball(double radius, double mass, std::array<double, Physics::DIMENSIONS> position,
+           std::array<double, Physics::DIMENSIONS> startSpeed, double bounciness)
 {
     radius_ = radius;
     mass_ = mass;
@@ -30,6 +30,15 @@ void Ball::setRadius(double newRadius)
 {
     radius_ = newRadius;
     this->calculateVolumeAndDensity();
+}
+
+std::array<double, Physics::DIMENSIONS> Ball::getPosition() const
+{
+    return position_;
+}
+void Ball::setPosition(std::array<double, Physics::DIMENSIONS> newPosition)
+{
+    position_ = newPosition;
 }
 
 double Ball::getMass() const
@@ -66,7 +75,7 @@ void Ball::setSpeed(std::array<double, Physics::DIMENSIONS> newSpeed)
 
 void Ball::move()
 {
-    for (int dimension = 0; dimension < speed_.size(); dimension++)
+    for (long unsigned int dimension = 0; dimension < speed_.size(); dimension++)
     {
         position_[dimension] += speed_[dimension];
     }
@@ -106,7 +115,7 @@ double Ball::distance(std::array<double, Physics::DIMENSIONS> start, std::array<
     return sum;
 }
 
-bool Ball::checkCollision(Ball &secondBall, bool calculateCollision = true)
+bool Ball::checkCollision(Ball &secondBall, bool calculateCollision)
 {
     if (distance(secondBall.position_, position_) <= secondBall.radius_ + radius_)
     {
@@ -119,11 +128,6 @@ bool Ball::checkCollision(Ball &secondBall, bool calculateCollision = true)
 
 void Ball::collide(Ball &secondBall)
 {
-    if (position_ == secondBall.position_)
-    {
-        // TODO inelastic collision
-        return;
-    }
     normalisePositions(*this, secondBall);
     // calculating normal of the collision
     double normalX = position_[0] - secondBall.position_[0];
@@ -175,7 +179,7 @@ void Ball::normalisePositions(Ball &firstBall, Ball &secondBall)
     double diffX2 = diff * cosNormal - diffX1;
     double diffY2 = diff * sinNormal - diffX2;
 
-    firstBall.position_ = {firstBall.position_[0] + diffX1, firstBall.position_[1] + diffY1, firstBall.position_[2]};
-    secondBall.position_ = {secondBall.position_[0] + diffX2, secondBall.position_[1] + diffY2, secondBall.position_[2]};
+    firstBall.position_ = {firstBall.position_[0] + diffX1, firstBall.position_[1] + diffY1};
+    secondBall.position_ = {secondBall.position_[0] + diffX2, secondBall.position_[1] + diffY2};
     return;
 }
