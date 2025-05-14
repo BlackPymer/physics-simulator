@@ -3,15 +3,14 @@
 int main()
 {
     PhysicsEngine physics_engine;
-    physics_engine.createBall(1, 1, {0, 0});
-    physics_engine.createBall(1, 1, {-3, -3});
-    physics_engine.createBall(1, 1, {3, 3});
+    physics_engine.createBall(1e6, 1e24, {0, 0});            // Central heavy mass
+    physics_engine.createBall(1e5, 1e3, {0, 1e8}, {1e3, 0}); // Orbiting satellite
 
     unsigned long long frame = 0;
     while (true)
     {
         frame++;
-        if (frame % 10000 == 0)
+        if (frame % 1000000 == 0)
             std::cout << physics_engine.getLogs();
         physics_engine.update();
     }

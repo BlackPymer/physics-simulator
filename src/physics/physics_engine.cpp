@@ -33,25 +33,35 @@ void PhysicsEngine::update()
             std::array<double, Physics::DIMENSIONS> position2 = secondBall->getPosition();
             double mass2 = secondBall->getMass();
 
+            double distanceX = (position1[0] - position2[0]);
+            double distanceY = (position1[1] - position2[1]);
             double distance = Ball::distance(position1, position2);
-            double force = Physics::GRAVITY_CONSTANT * mass1 * mass2 / std::pow(distance, 2) * Physics::SIMULATION_SPEED;
+            if (distance == 0)
+            {
+                // TODO inelastic collision
+                continue;
+            }
 
-            double xForce = force * std::abs(position1[0] - position2[0]) / distance;
-            double yForce = force * std::abs(position1[1] - position2[1]) / distance;
+            double force = Physics::GRAVITY_CONSTANT * mass1 * mass2 / std::pow(distance, 2);
+
+            double xForce = force * distanceX / distance;
+            double yForce = force * distanceY / distance;
 
             std::array<double, Physics::DIMENSIONS> newSpeed1 = firstBall->getSpeed();
-            newSpeed1[0] += xForce / mass1;
-            newSpeed1[1] += yForce / mass1;
+            newSpeed1[0] -= xForce / mass1;
+            newSpeed1[1] -= yForce / mass1;
             firstBall->setSpeed(newSpeed1);
 
             std::array<double, Physics::DIMENSIONS> newSpeed2 = secondBall->getSpeed();
             newSpeed2[0] += xForce / mass2;
             newSpeed2[1] += yForce / mass2;
             secondBall->setSpeed(newSpeed2);
+            objects_[secondBallIndex] = secondBall;
         }
-        firstBall->move();
+        objects_[firstBallIndex] = firstBall;
     }
-    objects_.back()->move();
+    for (Ball *ball : objects_)
+        ball->move();
 
     // calculate collisions
     for (unsigned long firstBallIndex = 0; firstBallIndex < objects_.size() - 1; firstBallIndex++)

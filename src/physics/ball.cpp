@@ -77,7 +77,7 @@ void Ball::move()
 {
     for (long unsigned int dimension = 0; dimension < speed_.size(); dimension++)
     {
-        position_[dimension] += speed_[dimension];
+        position_[dimension] += speed_[dimension] * Physics::SIMULATION_SPEED;
     }
 }
 
@@ -111,8 +111,8 @@ double Ball::distance(std::array<double, Physics::DIMENSIONS> start, std::array<
 {
     double sum = 0;
     for (int dimension = 0; dimension < Physics::DIMENSIONS; dimension++)
-        sum += std::sqrt(std::pow(start[dimension], 2) + std::pow(end[dimension], 2));
-    return sum;
+        sum += std::pow(start[dimension], 2) + std::pow(end[dimension], 2);
+    return std::sqrt(sum);
 }
 
 bool Ball::checkCollision(Ball &secondBall, bool calculateCollision)
