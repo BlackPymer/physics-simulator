@@ -111,7 +111,7 @@ double Ball::distance(std::array<double, Physics::DIMENSIONS> start, std::array<
 {
     double sum = 0;
     for (int dimension = 0; dimension < Physics::DIMENSIONS; dimension++)
-        sum += std::pow(start[dimension], 2) + std::pow(end[dimension], 2);
+        sum += std::pow(start[dimension] - end[dimension], 2);
     return std::sqrt(sum);
 }
 
@@ -177,7 +177,7 @@ void Ball::normalisePositions(Ball &firstBall, Ball &secondBall)
     double diffY1 = diff * sinNormal * std::abs(firstBall.speed_[1]) / (std::abs(firstBall.speed_[1]) + std::abs(secondBall.speed_[1]));
 
     double diffX2 = diff * cosNormal - diffX1;
-    double diffY2 = diff * sinNormal - diffX2;
+    double diffY2 = diff * sinNormal - diffY1;
 
     firstBall.position_ = {firstBall.position_[0] + diffX1, firstBall.position_[1] + diffY1};
     secondBall.position_ = {secondBall.position_[0] + diffX2, secondBall.position_[1] + diffY2};

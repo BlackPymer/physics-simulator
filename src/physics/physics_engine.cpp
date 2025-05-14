@@ -44,8 +44,8 @@ void PhysicsEngine::update()
 
             double force = Physics::GRAVITY_CONSTANT * mass1 * mass2 / std::pow(distance, 2);
 
-            double xForce = force * distanceX / distance;
-            double yForce = force * distanceY / distance;
+            double xForce = force * distanceX / distance * Physics::SIMULATION_SPEED;
+            double yForce = force * distanceY / distance * Physics::SIMULATION_SPEED;
 
             std::array<double, Physics::DIMENSIONS> newSpeed1 = firstBall->getSpeed();
             newSpeed1[0] -= xForce / mass1;
