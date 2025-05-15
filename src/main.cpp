@@ -1,6 +1,6 @@
 #include <iostream>
 #include "../include/physics/physics_engine.hpp"
-
+#include "../include/graphics/graphics_engine.hpp"
 void oneBigAndOneSmall()
 {
     PhysicsEngine physics_engine;
@@ -36,6 +36,7 @@ void threeSmall()
 
 int main()
 {
-    threeSmall();
+    GraphicsEngine graphicEngine;
+    graphicEngine.createWindow();
     return 0;
 }
