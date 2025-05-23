@@ -7,10 +7,15 @@ class GraphicsEngine
 {
 public:
     /**
-     * @brief Creates (Recreates if exists) new window
+     * @brief Initialises Engine with an existing window
      */
-    void createWindow();
+    GraphicsEngine(sf::RenderWindow &window);
+
+    /**
+     * @brief starts window rendering
+     */
+    void run();
 
 private:
-    sf::RenderWindow window_;
+    sf::RenderWindow &window_;
 };

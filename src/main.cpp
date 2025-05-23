@@ -1,6 +1,7 @@
 #include <iostream>
 #include "../include/physics/physics_engine.hpp"
 #include "../include/graphics/graphics_engine.hpp"
+#include <SFML/Window.hpp>
 void oneBigAndOneSmall()
 {
     PhysicsEngine physics_engine;
@@ -36,7 +37,8 @@ void threeSmall()
 
 int main()
 {
-    GraphicsEngine graphicEngine;
-    graphicEngine.createWindow();
+    sf::RenderWindow window(sf::VideoMode({800, 600}), "My window");
+    GraphicsEngine graphicsEngine(window);
+    graphicsEngine.run();
     return 0;
 }

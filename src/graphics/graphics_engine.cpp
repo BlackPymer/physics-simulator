@@ -1,23 +1,31 @@
 #include "../../include/graphics/graphics_engine.hpp"
 #include <SFML/Graphics.hpp>
+#include "../../include/graphics/colors.hpp"
+#include "../../include/graphics/window_params.hpp"
+#include <optional>
 
-void GraphicsEngine::createWindow()
+GraphicsEngine::GraphicsEngine(sf::RenderWindow &window) : window_(window)
 {
-    sf::RenderWindow window(sf::VideoMode({200, 200}), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
-    while (window.isOpen())
+    window_.setFramerateLimit(SimulatorTheme::WindowParams::windowFrameRate);
+    window_.setSize(sf::Vector2u(SimulatorTheme::WindowParams::windowWidth, SimulatorTheme::WindowParams::windowHeight));
+}
+void GraphicsEngine::run()
+{
+    while (window_.isOpen())
     {
         sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+        std::optional<sf::Event> optEvent;
 
-        window.clear();
-        window.draw(shape);
-        window.display();
+        if (window_.pollEvent(event))
+        {
+            optEvent = event;
+
+            if (optEvent->type == sf::Event::Closed)
+            {
+                window_.close();
+            }
+        }
+        window_.clear(SimulatorTheme::Colors::backgroundColor);
+        window_.display();
     }
 }
