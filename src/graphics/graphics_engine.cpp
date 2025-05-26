@@ -3,6 +3,9 @@
 #include "../../include/graphics/colors.hpp"
 #include "../../include/graphics/window_params.hpp"
 #include <optional>
+#include <vector>
+#include <array>
+#include "../../include/physics/ball.hpp"
 
 GraphicsEngine::GraphicsEngine(sf::RenderWindow &window) : window_(window)
 {
@@ -27,5 +30,17 @@ void GraphicsEngine::run()
         }
         window_.clear(SimulatorTheme::Colors::backgroundColor);
         window_.display();
+    }
+}
+sf::Vector2f GraphicsEngine::fromArrayToVector2F(const std::array<double, 2> &array)
+{
+    return sf::Vector2f(array[0], array[1]);
+}
+void GraphicsEngine::update(const std::vector<Ball> &balls)
+{
+    for (Ball ball : balls)
+    {
+        sf::CircleShape circle(ball.getRadius());
+        circle.setPosition(GraphicsEngine::fromArrayToVector2F(ball.getPosition()));
     }
 }

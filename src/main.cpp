@@ -37,7 +37,7 @@ void threeSmall()
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode({800, 600}), "My window");
+    sf::RenderWindow window(sf::VideoMode({800, 600}), "Physics simulator");
     GraphicsEngine graphicsEngine(window);
     graphicsEngine.run();
     return 0;
