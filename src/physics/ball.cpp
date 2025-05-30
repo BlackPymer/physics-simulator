@@ -138,13 +138,17 @@ void Ball::collide(Ball &secondBall)
     double cosNormal = normalX / normalLength;
     double sinNormal = normalY / normalLength;
 
+    // angles to tangens
+    double cosTangens = -sinNormal;
+    double sinTangens = cosNormal;
+
     // speed at normal
     double speed1Normal = speed_[0] * cosNormal + speed_[1] * sinNormal;
     double speed2Normal = secondBall.speed_[0] * cosNormal + secondBall.speed_[1] * sinNormal;
 
     // speed at tangens
-    double speed1Tangens = speed_[0] * sinNormal + speed_[1] * cosNormal;
-    double speed2Tangens = secondBall.speed_[0] * sinNormal + secondBall.speed_[1] * cosNormal;
+    double speed1Tangens = speed_[0] * cosTangens + speed_[1] * sinTangens;
+    double speed2Tangens = secondBall.speed_[0] * cosTangens + secondBall.speed_[1] * sinNormal;
 
     // speed at normal after collision
     double newSpeed1Normal = ((mass_ - secondBall.mass_) * speed1Normal + 2 * secondBall.mass_ * speed2Normal) / (mass_ + secondBall.mass_);
@@ -164,22 +168,30 @@ void Ball::collide(Ball &secondBall)
 
 void Ball::normalisePositions(Ball &firstBall, Ball &secondBall)
 {
-    double distance = Ball::distance(firstBall.position_, secondBall.position_);
-    double diff = (firstBall.radius_ + secondBall.radius_) - distance;
+    double centerDistance = Ball::distance(firstBall.position_, secondBall.position_);
+    double overlap = (firstBall.radius_ + secondBall.radius_) - centerDistance;
 
-    double normalX = firstBall.position_[0] - secondBall.position_[0];
-    double normalY = firstBall.position_[1] - secondBall.position_[1];
+    if (overlap <= 0.0)
+        return;
 
-    double cosNormal = normalX / distance;
-    double sinNormal = normalY / distance;
+    double normalX = (firstBall.position_[0] - secondBall.position_[0]) / centerDistance;
+    double normalY = (firstBall.position_[1] - secondBall.position_[1]) / centerDistance;
 
-    double diffX1 = diff * cosNormal * std::abs(firstBall.speed_[0]) / (std::abs(firstBall.speed_[0]) + std::abs(secondBall.speed_[0]));
-    double diffY1 = diff * sinNormal * std::abs(firstBall.speed_[1]) / (std::abs(firstBall.speed_[1]) + std::abs(secondBall.speed_[1]));
+    double totalSpeed = std::abs(firstBall.speed_[0] - secondBall.speed_[0]) + std::abs(firstBall.speed_[1] - secondBall.speed_[1]);
+    if (totalSpeed == 0.0)
+        totalSpeed = 1.0; // avoid division by zero
 
-    double diffX2 = diff * cosNormal - diffX1;
-    double diffY2 = diff * sinNormal - diffY1;
+    double adjustmentFirstBall = (std::abs(firstBall.speed_[0] - secondBall.speed_[0]) + std::abs(firstBall.speed_[1] - secondBall.speed_[1])) / totalSpeed;
+    double adjustmentSecondBall = 1.0 - adjustmentFirstBall;
 
-    firstBall.position_ = {firstBall.position_[0] + diffX1, firstBall.position_[1] + diffY1};
-    secondBall.position_ = {secondBall.position_[0] + diffX2, secondBall.position_[1] + diffY2};
-    return;
+    double shiftFirstBallX = normalX * overlap * adjustmentFirstBall;
+    double shiftFirstBallY = normalY * overlap * adjustmentFirstBall;
+
+    double shiftSecondBallX = -normalX * overlap * adjustmentSecondBall;
+    double shiftSecondBallY = -normalY * overlap * adjustmentSecondBall;
+
+    firstBall.position_[0] += shiftFirstBallX;
+    firstBall.position_[1] += shiftFirstBallY;
+    secondBall.position_[0] += shiftSecondBallX;
+    secondBall.position_[1] += shiftSecondBallY;
 }

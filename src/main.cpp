@@ -1,41 +1,37 @@
 #include <iostream>
 #include "../include/physics/physics_engine.hpp"
-
-void oneBigAndOneSmall()
+#include "../include/graphics/graphics_engine.hpp"
+#include <SFML/Window.hpp>
+PhysicsEngine oneBigAndOneSmall()
 {
-    PhysicsEngine physics_engine;
-    physics_engine.createBall(1e6, 1e24, {0, 0});            // Central heavy mass
-    physics_engine.createBall(1e5, 1e3, {0, 1e8}, {1e3, 0}); // Orbiting satellite
+    PhysicsEngine physicsEngine;
+    physicsEngine.createBall(1e4, 1e24, {400, 400}); // Central heavy mass
+    physicsEngine.createBall(1e3, 1e3, {0, 0});      // Orbiting satellite
 
-    unsigned long long frame = 0;
-    while (true)
-    {
-        frame++;
-        if (frame % 100000 == 0)
-            std::cout << physics_engine.getLogs();
-        physics_engine.update();
-    }
+    return physicsEngine;
 }
 
-void threeSmall()
+PhysicsEngine threeSmall()
 {
-    PhysicsEngine physics_engine;
-    physics_engine.createBall(1e2, 1e3, {0, 1e4});
-    physics_engine.createBall(1e2, 1e3, {1e1, -1e4});
-    physics_engine.createBall(1e2, 1e3, {-1e2, -1e3});
+    PhysicsEngine physicsEngine;
+    physicsEngine.createBall(1e2, 1e3, {300, 400});
+    physicsEngine.createBall(1e2, 1e3, {450, 250});
+    physicsEngine.createBall(1e2, 1e3, {600, 400});
 
-    unsigned long long frame = 0;
-    while (true)
-    {
-        frame++;
-        if (frame % 10000 == 0)
-            std::cout << physics_engine.getLogs();
-        physics_engine.update();
-    }
+    return physicsEngine;
 }
 
 int main()
 {
-    threeSmall();
+    sf::RenderWindow window(sf::VideoMode({1280, 720}), "Physics simulator");
+    GraphicsEngine graphicsEngine(window);
+
+    PhysicsEngine physicsEngine = threeSmall();
+
+    while (window.isOpen())
+    {
+        physicsEngine.update();
+        graphicsEngine.update(window, physicsEngine.getSceneObjects());
+    }
     return 0;
 }

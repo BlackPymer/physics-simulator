@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ball.hpp"
 #include "constants.hpp"
 #include <vector>
@@ -32,6 +34,11 @@ public:
      * @brief Returns logs about the objects on the scene
      */
     std::string getLogs();
+
+    /**
+     * @returns std::vector<Ball> as an info about the objects are exist on the scene at the moment
+     */
+    std::vector<Ball> getSceneObjects();
 
 private:
     std::vector<Ball *> objects_;
