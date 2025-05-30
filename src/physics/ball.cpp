@@ -6,6 +6,11 @@
 Ball::Ball(double radius, double mass, std::array<double, Physics::DIMENSIONS> position,
            std::array<double, Physics::DIMENSIONS> startSpeed, double bounciness)
 {
+    if (radius <= 0)
+        throw Ball::NonPositiveRadiusException();
+    if (mass <= 0)
+        throw Ball::NonPositiveMassException();
+
     radius_ = radius;
     mass_ = mass;
     this->calculateVolumeAndDensity();

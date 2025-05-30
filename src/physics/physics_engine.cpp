@@ -86,7 +86,7 @@ std::string PhysicsEngine::getLogs()
 }
 std::vector<Ball> PhysicsEngine::getSceneObjects()
 {
-    std::vector<Ball> info(objects_.size());
+    std::vector<Ball> info(objects_.size(), Ball(1, 1));
     for (unsigned long ballNum = 0; ballNum < objects_.size(); ballNum++)
     {
         info[ballNum] = *objects_[ballNum];
