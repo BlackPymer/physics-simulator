@@ -47,7 +47,7 @@ void GraphicsEngine::update(sf::RenderWindow &window, const std::vector<Ball> &b
         circle.setRadius(ball.getRadius());
 
         sf::Color ballColor = SimulatorTheme::Colors::ballColor;
-        ballColor.a = ball.getDensity() / maxDensity * 255;
+        // ballColor.a = ball.getDensity() / maxDensity * 255;
         circle.setFillColor(ballColor);
 
         window.draw(circle);
