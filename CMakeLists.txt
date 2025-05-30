@@ -18,13 +18,13 @@ set(HEADERS
     include/graphics/graphics_engine.hpp
 )
 
-add_executable(MyExecutable ${SOURCES})
+add_executable(PhysicsSimulator ${SOURCES})
 
-target_include_directories(MyExecutable PRIVATE ${CMAKE_SOURCE_DIR}/include)
+target_include_directories(PhysicsSimulator PRIVATE ${CMAKE_SOURCE_DIR}/include)
 
 source_group("Header Files" FILES ${HEADERS})
 
-target_compile_options(MyExecutable PRIVATE -Wall -Wextra -Wpedantic)
+target_compile_options(PhysicsSimulator PRIVATE -Wall -Wextra -Wpedantic)
 
 find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
-target_link_libraries(MyExecutable PRIVATE sfml-graphics sfml-window sfml-system)
+target_link_libraries(PhysicsSimulator PRIVATE sfml-graphics sfml-window sfml-system)
